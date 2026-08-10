@@ -12,7 +12,7 @@ An interactive Power BI dashboard built to analyze hospital operations, patient 
 4. [Repository Contents](#-repository-contents)
 5. [Dataset Description](#️-dataset-description)
 6. [Data Cleaning (Power Query)](#-data-cleaning-power-query)
-7. [Challenges & Solutions](#challenges--solutions)
+7. [Challenges & Solutions](<a id="challenges-solutions"></a>)
 8. [Dashboard Pages](#-dashboard-pages)
 9. [Key Insights](#-key-insights)
 10. [Recommendations Summary](#-recommendations-summary)
