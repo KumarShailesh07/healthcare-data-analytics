@@ -12,7 +12,7 @@ An interactive Power BI dashboard built to analyze hospital operations, patient 
 4. [Repository Contents](#-repository-contents)
 5. [Dataset Description](#️-dataset-description)
 6. [Data Cleaning (Power Query)](#-data-cleaning-power-query)
-7. [Challenges & Solutions](<a id="challenges-solutions"></a>)
+7. [Challenges & Solutions](#challenges-solutions)
 8. [Dashboard Pages](#-dashboard-pages)
 9. [Key Insights](#-key-insights)
 10. [Recommendations Summary](#-recommendations-summary)
@@ -110,6 +110,7 @@ The result is a clean, analysis-ready table with 15 columns and 999+ rows, 0% er
 ---
 
 ---
+<a id="challenges-solutions"></a>
 
 ## ⚠️ Challenges & Solutions
 
