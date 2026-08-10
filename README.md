@@ -12,16 +12,17 @@ An interactive Power BI dashboard built to analyze hospital operations, patient 
 4. [Repository Contents](#-repository-contents)
 5. [Dataset Description](#️-dataset-description)
 6. [Data Cleaning (Power Query)](#-data-cleaning-power-query)
-7. [Dashboard Pages](#-dashboard-pages)
-8. [Key Insights](#-key-insights)
-9. [Recommendations Summary](#-recommendations-summary)
-10. [Data Model & DAX Measures](#-data-model--dax-measures)
-11. [Skills Demonstrated](#️-skills-demonstrated)
-12. [Tools & Techniques Used](#️-tools--techniques-used)
-13. [How to Use](#-how-to-use)
-14. [Future Enhancements](#-future-enhancements)
-15. [Data Source & Disclaimer](#-data-source--disclaimer)
-16. [Author](#-author)
+7. [Challenges & Solutions](#challenges--solutions)
+8. [Dashboard Pages](#-dashboard-pages)
+9. [Key Insights](#-key-insights)
+10. [Recommendations Summary](#-recommendations-summary)
+11. [Data Model & DAX Measures](#-data-model--dax-measures)
+12. [Skills Demonstrated](#️-skills-demonstrated)
+13. [Tools & Techniques Used](#️-tools--techniques-used)
+14. [How to Use](#-how-to-use)
+15. [Future Enhancements](#-future-enhancements)
+16. [Data Source & Disclaimer](#-data-source--disclaimer)
+17. [Author](#-author)
 
 ---
 
@@ -105,6 +106,57 @@ The raw dataset (`Messy_healthcare_dataset`) was cleaned and transformed in Powe
 - **Merged columns** where fields needed to be recombined after splitting/cleaning.
 
 The result is a clean, analysis-ready table with 15 columns and 999+ rows, 0% errors and 0% empty values across the profiled fields (Name, Age, Gender, Blood Type, Medical Condition), as confirmed by Power Query's column quality profiling.
+
+---
+
+---
+
+## ⚠️ Challenges & Solutions
+
+Like most real-world datasets, the raw healthcare data wasn't analysis-ready from the start. Below are some of the key challenges encountered during the project and how they were addressed.
+
+### Challenge 1: Inconsistent Text Formatting
+
+Several text fields contained inconsistent capitalization, extra spaces, and hidden characters. These issues can lead to incorrect grouping and duplicate-looking values during analysis.
+
+**Solution:**
+Used Power Query's **Trim**, **Clean**, **Replace Values**, and text formatting transformations to standardize fields such as Patient Name, Doctor, and Hospital, ensuring accurate filtering and aggregation.
+
+---
+
+### Challenge 2: Raw Data Was Not Ready for Analysis
+
+The dataset contained mixed data types and formatting inconsistencies, which made calculations and reporting unreliable.
+
+**Solution:**
+Promoted headers, corrected data types, cleaned text fields, and validated the transformed data using Power Query's column profiling features before loading it into the model.
+
+---
+
+### Challenge 3: Creating Operational Metrics
+
+The dataset did not directly provide a metric for measuring hospital stay duration, which is an important operational KPI.
+
+**Solution:**
+Created a **Length of Stay (LOS)** calculation using the difference between **Discharge Date** and **Admission Date**, enabling hospital efficiency and patient care analysis.
+
+---
+
+### Challenge 4: Converting Raw Data into Business Insights
+
+Having thousands of patient records is useful, but raw numbers alone do not help decision-makers understand what actions to take.
+
+**Solution:**
+Analyzed trends across patient demographics, medical conditions, hospital performance, admission types, and billing data to identify meaningful insights and provide actionable recommendations.
+
+---
+
+### Challenge 5: Keeping the Dashboard Simple and Useful
+
+With many available columns and potential visualizations, there was a risk of creating a cluttered dashboard that was difficult to navigate.
+
+**Solution:**
+Structured the report into dedicated sections — **Executive Summary, Patient Analysis, Financial Analysis, Operational Analysis, Insights, and Recommendations** — allowing users to explore information in a logical and organized way.
 
 ---
 
