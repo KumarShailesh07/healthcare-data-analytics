@@ -52,12 +52,14 @@ This project transforms a raw healthcare dataset (~55,500 patient records) into 
 ---
 
 ## 📂 Repository Contents
-
-| File | Description |
+ 
+| File / Folder | Description |
 |---|---|
-| `Health_Care_Dataset.csv` | Raw source dataset (~55.5K patient records) |
-| `Healthcare_Analysis.pbix` | Power BI report file (dashboard + data model) |
-| `screenshots/` | Preview images of each report page |
+| `Health Care Dataset.xlsx` | Source workbook containing **both** the messy (raw) and cleaned versions of the dataset as separate sheets (~55.5K patient records) |
+| `Cleaned_Health Care Dataset.csv` | Standalone CSV export of the cleaned data — a separate CSV file containing the cleaned dataset, useful for reviewing the final cleaning output without opening the original Excel file. |
+| `Messy_healthcare_dataset.csv` | Standalone CSV export of the raw, uncleaned data — useful for viewing the pre-cleaning state without opening Excel |
+| `Healthcare Analysis.pbix` | Power BI report file (dashboard + data model), built by loading the **cleaned sheet** from `Health Care Dataset.xlsx` |
+| `Dashboard Screenshot/` | Preview images of each report page |
 | `README.md` | Project documentation (this file) |
 
 ---
