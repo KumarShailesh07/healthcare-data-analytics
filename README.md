@@ -109,7 +109,6 @@ The result is a clean, analysis-ready table with 15 columns and 999+ rows, 0% er
 
 ---
 
----
 <a id="challenges-solutions"></a>
 
 ## ⚠️ Challenges & Solutions
