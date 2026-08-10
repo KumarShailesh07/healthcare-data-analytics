@@ -92,7 +92,8 @@ The dataset contains patient-level records with the following fields:
 
 The raw dataset (`Messy_healthcare_dataset`) was cleaned and transformed in Power Query before being loaded into the model as `Cleaned_healthcare_dataset`. Key applied steps included:
 
-![Data Cleaning](screenshots/08_data_cleaning.png)
+<img width="959" height="539" alt="image" src="https://github.com/user-attachments/assets/b27688e3-2418-4f47-ac1d-bdb21d9ae681" />
+
 
 - **Promoted headers** and corrected column data types (text, numeric, date) so fields like Age and Billing Amount could be aggregated correctly.
 - **Capitalized each word** in text fields (e.g., patient names) for consistent formatting.
@@ -110,32 +111,38 @@ The result is a clean, analysis-ready table with 15 columns and 999+ rows, 0% er
 ### 1. Executive Summary
 High-level KPIs at a glance: total patients, total revenue, average billing amount, average patient age, average length of stay, total hospitals/doctors, and the most common medical condition — plus trends of patient volume by year and revenue by month.
 
-![Executive Summary](screenshots/01_executive_summary.png)
+<img width="737" height="440" alt="Screenshot 2026-08-10 214204" src="https://github.com/user-attachments/assets/57514326-08cb-4d5e-8572-07646e831e60" />
+
 
 ### 2. Patient Analysis
 Breakdown of patients by gender, age group, blood type, test results, medical condition, and medication — including medication usage patterns across age groups and gender.
 
-![Patient Analysis](screenshots/02_patient_analysis.png)
+<img width="733" height="412" alt="Screenshot 2026-08-10 214225" src="https://github.com/user-attachments/assets/2a89bca8-21ec-4191-9ef7-1d78467128bf" />
+
 
 ### 3. Financial Analysis
 Revenue performance by hospital, admission type, medical condition, and insurance provider, along with top/bottom billing patients and billing splits by age group and gender.
 
-![Financial Analysis](screenshots/03_financial_analysis.png)
+<img width="733" height="410" alt="Screenshot 2026-08-10 214241" src="https://github.com/user-attachments/assets/e186969c-28a7-42a3-bfe7-63c2113da99d" />
+
 
 ### 4. Operational Analysis
 Hospital and doctor-level performance: top hospitals/doctors by patient volume, revenue, and average length of stay, plus longest-stay patients and average stay by medical condition.
 
-![Operational Analysis](screenshots/04_operational_analysis.png)
+<img width="736" height="408" alt="Screenshot 2026-08-10 214259" src="https://github.com/user-attachments/assets/69a0aa10-4118-4c2a-8bb7-89c2aba908b9" />
+
 
 ### 5. Insights
 Narrative, data-driven observations synthesized from all report pages (patient trends, revenue seasonality, chronic disease burden, demographic spend patterns, and top operational performers).
 
-![Insights](screenshots/05_insights.png)
+<img width="727" height="413" alt="Screenshot 2026-08-10 214315" src="https://github.com/user-attachments/assets/edd0c1e6-e80c-4ab1-8c57-975ab3c311ed" />
+
 
 ### 6. Recommendations
 Actionable recommendations grouped into three themes: Operations & Staffing, Patient Care & Chronic Illness Management, and Financial & Resource Planning.
 
-![Recommendations](screenshots/06_recommendations.png)
+<img width="731" height="409" alt="Screenshot 2026-08-10 214333" src="https://github.com/user-attachments/assets/64d581de-8047-4a1a-9b6a-f6f8ce930a07" />
+
 
 ---
 
@@ -164,7 +171,8 @@ Actionable recommendations grouped into three themes: Operations & Staffing, Pat
 
 The report is built on a single cleaned fact table (`Cleaned_Dataset`) derived from the raw CSV via Power Query — with data type fixes, a calculated `Days in Hospital` column, and an `Age Band` grouping column added during transformation.
 
-![Data Model](screenshots/07_data_model.png)
+<img width="437" height="309" alt="Screenshot 2026-08-10 225952" src="https://github.com/user-attachments/assets/04222a9e-f9b8-499d-af8d-2362e677381b" />
+
 
 A few of the core DAX measures powering the KPIs and visuals:
 
