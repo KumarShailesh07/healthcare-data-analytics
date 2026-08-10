@@ -95,7 +95,7 @@ The dataset contains patient-level records with the following fields:
 
 The raw dataset (`Messy_healthcare_dataset`) was cleaned and transformed in Power Query before being loaded into the model as `Cleaned_healthcare_dataset`. Key applied steps included:
 
-<img width="959" height="539" alt="image" src="https://github.com/user-attachments/assets/b27688e3-2418-4f47-ac1d-bdb21d9ae681" />
+<img width="957" height="539" alt="image" src="https://github.com/user-attachments/assets/9bc5bf94-95ae-4c64-994d-853f00765ce0" />
 
 
 - **Promoted headers** and corrected column data types (text, numeric, date) so fields like Age and Billing Amount could be aggregated correctly.
