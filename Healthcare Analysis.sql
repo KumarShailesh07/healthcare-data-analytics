@@ -1,5 +1,25 @@
--- 🏥 Healthcare SQL Analysis
---------------------------------------
+-- =============================================================================
+-- Project     : Healthcare Data Analytics
+-- File        : Healthcare_Analysis.sql
+-- Author      : Shailesh Kumar
+-- Database    : SQL Server (T-SQL)
+-- Source Table: health_care_data  (loaded from Cleaned_Health Care Dataset.csv)
+-- Dataset     : ~55,500 patient admission records | 2019-2024
+-- Description : Standalone SQL analysis layer for the Healthcare Data Analytics
+--               project. Independently validates and re-derives the KPIs shown
+--               in the companion Power BI dashboard, and documents data-quality
+--               caveats (negative billing, partial-year 2024 data, high-
+--               cardinality Hospital/Doctor fields) before treating any
+--               aggregate as a business insight.
+-- Sections    : 1. Data Validation & Quality
+--               2. Patient & Demographic Analysis
+--               3. Admission Analysis
+--               4. Hospital & Revenue Analysis
+--               5. Medical Condition & Financial Analysis
+--               6. Advanced SQL Analysis (CTEs, window functions, running totals)
+--				 7. Project Conclusion
+-- Repository  : https://github.com/KumarShailesh07/healthcare-data-analytics.git
+-- =============================================================================
 
 
 -- To see full data
@@ -1069,6 +1089,7 @@ group by Hospital
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- Project Conclusion:
+-------------------------------
 
 -- This analysis provides an overall view of patient demographics,
 -- admission patterns, hospital performance, medical conditions,
