@@ -1,11 +1,6 @@
 -- 🏥 Healthcare SQL Analysis
 --------------------------------------
 
---📌 Insight Formula
-
--- What happened → How much → Why/Where → So what (business impact)
-
-------------------------------------------------------------------------
 
 -- To see full data
 select * from health_care_data;
@@ -352,6 +347,21 @@ from health_care_data
 group by Admission_Type
 order by [Average Billing Amount] desc;
 
+-- Insights:
+-------------
+-- This analysis identifies the average billing amount by admission type.
+
+-- Elective has the highest average billing amount,
+-- which is $25,602.23.
+
+-- Emergency has the lowest average billing amount,
+-- which is $25,497.40.
+
+-- The difference between the highest and lowest average billing amounts
+-- is only $104.83, indicating that the average billing amount is
+-- relatively balanced across the different admission types.
+
+
 --Find the total revenue by admission type.
 select 
 	Admission_Type,
@@ -360,6 +370,22 @@ from health_care_data
 group by Admission_Type
 order by [Total Revenue] desc;
 
+-- Insights:
+-------------
+-- This analysis identifies the total revenue by admission type.
+
+-- Elective has the highest total revenue,
+-- which is approximately $477.61M.
+
+-- Emergency has the lowest total revenue,
+-- which is approximately $465.81M.
+
+-- The difference between the highest and lowest total revenue
+-- is approximately $11.80M, indicating that the total revenue
+-- is relatively balanced across the different admission types.
+
+
+
 --Identify the admission type generating the highest revenue.
 select 
 	top 1 Admission_Type,
@@ -367,6 +393,13 @@ select
 from health_care_data
 group by Admission_Type
 order by [Total Revenue] desc;
+
+-- Insights:
+-------------
+-- This analysis identifies the admission type generating the highest revenue.
+
+-- The Elective admission type generates the highest revenue,
+-- which is approximately $477.61M.
 
 
 --Analyze admissions by year and month.
@@ -378,6 +411,17 @@ from health_care_data
 group by Admission_Type,
 		 FORMAT(Date_of_Admission, 'yyyy-MM')
 order by [Year-Month] asc;
+
+-- Insights:
+-------------
+-- This analysis identifies the number of admissions by admission type
+-- across each year and month.
+
+-- In May 2019, the Elective admission type recorded the highest number
+-- of admissions, with 244 admissions.
+
+-- In May 2024, the Urgent admission type recorded the lowest number
+-- of admissions, with 72 admissions.
 
 
 
@@ -391,6 +435,13 @@ group by
 		 FORMAT(Date_of_Admission, 'yyyy-MM')
 order by [Total Admission] desc;
 
+-- Insights:
+-------------
+-- This analysis identifies the month/year with the highest number of admissions.
+
+-- August 2020 recorded the highest number of admissions,
+-- with a total of 1,014 admissions.
+
 
 --4. Hospital & Revenue Analysis 
 --------------------------------------
@@ -403,6 +454,22 @@ from health_care_data
 group by Hospital
 order by [Total Revenue] desc;
 
+-- Insights:
+-------------
+-- Johnson PLC generated the highest total revenue among the hospitals,
+-- with approximately $1.08M in revenue.
+
+-- Medina Elliott Stewart recorded the lowest total revenue,
+-- with approximately -$2,633.24.
+
+-- The negative total revenue for Medina Elliott Stewart is notable
+-- and may indicate that refunds or billing adjustments exceeded
+-- the positive billing amounts recorded for this hospital.
+
+-- This finding may warrant further investigation into the billing
+-- and refund patterns of the hospital.
+
+
 --Find the top 10 hospitals by revenue.
 select top 10
 	Hospital,
@@ -411,6 +478,21 @@ from health_care_data
 group by Hospital
 order by [Total Revenue] desc;
 
+-- Insights:
+-------------
+-- This analysis identifies the top 10 hospitals based on total revenue.
+
+-- Johnson PLC generated the highest total revenue among the top 10 hospitals,
+-- with approximately $1.08M.
+
+-- Smith Group generated the lowest revenue among the top 10 hospitals,
+-- with approximately $806.63K.
+
+-- The difference between the highest and lowest revenue within the top 10
+-- hospitals is approximately $277.57K, indicating a noticeable variation
+-- in revenue generation among the top-performing hospitals.
+
+
 --Find the top 10 hospitals by patient count.
 select top 10
 	Hospital,
@@ -418,6 +500,20 @@ select top 10
 from health_care_data
 group by Hospital
 order by [Total Patients] desc;
+
+-- Insights:
+-------------
+-- This analysis identifies the top 10 hospitals based on total patient count.
+
+-- LLC Smith has the highest patient count among the top 10 hospitals,
+-- with 44 patients.
+
+-- Group Smith has the lowest patient count among the top 10 hospitals,
+-- with 32 patients.
+
+-- The difference between the highest and lowest patient count is 12 patients,
+-- indicating a relatively moderate variation in patient volume among
+-- the top 10 hospitals.
 
 
 --Find the average billing amount for each hospital.
@@ -428,6 +524,24 @@ from health_care_data
 group by Hospital
 order by [Avg Billing Amount] desc;
 
+-- Insights:
+-------------
+-- This analysis identifies the average billing amount for each hospital.
+
+-- Hernez Morton has the highest average billing amount,
+-- with approximately $52,373.03.
+
+-- Juarez Clark has the lowest average billing amount,
+-- with approximately -$2,008.49.
+
+-- The negative average billing amount for Juarez Clark is an unusual finding
+-- and may indicate that refunds or billing adjustments are significantly
+-- affecting the hospital's average billing amount.
+
+-- This finding may warrant further investigation into the billing
+-- and refund patterns of the hospital.
+
+
 --Find the hospital with the highest average billing amount.
 select top 1
 	Hospital,
@@ -436,17 +550,43 @@ from health_care_data
 group by Hospital
 order by [Avg Billing Amount] desc;
 
+-- Insights:
+-------------
+-- This analysis identifies the hospital with the highest average billing amount.
+
+-- Hernez Morton has the highest average billing amount,
+-- with approximately $52,373.03.
+
+
 --Calculate each hospital's percentage contribution to total revenue.
 select 
 	Hospital,
 	ROUND(SUM(Billing_Amount), 2) as [Total Revenue],
 	ROUND(
 		SUM(Billing_Amount) * 100.0 / SUM(SUM(Billing_Amount)) over() 
-		, 2
+		, 4
 	) as [Percentage Contribution]
 from health_care_data
 group by Hospital
 order by [Total Revenue] desc, [Percentage Contribution] desc;
+
+-- Insights:
+-------------
+-- Johnson PLC generated the highest total revenue among the hospitals,
+-- contributing approximately 0.0765% of the total healthcare network revenue.
+
+-- Medina Elliott Stewart recorded the lowest total revenue,
+-- with approximately -$2,633.24, representing a -0.0002% contribution
+-- to the overall network revenue.
+
+-- The very small percentage contribution of individual hospitals
+-- indicates that the total revenue is distributed across a large number
+-- of hospitals in the healthcare network.
+
+-- The negative revenue contribution recorded by Medina Elliott Stewart
+-- is unusual and may warrant further investigation into refunds,
+-- billing adjustments, or other negative billing transactions.
+
 
 --Find hospitals whose revenue is above the overall average hospital revenue.
 select 
@@ -466,34 +606,494 @@ having SUM(Billing_Amount) > (
 						) 
 order by [Total Revenue] desc;
 
--- Query optimise through CTEs pending...
+-- Insights:
+-------------
+-- 15,219 hospitals generated revenue above the overall average
+-- hospital revenue, indicating that a large number of hospitals
+-- performed above the network-wide average.
+
+-- Johnson PLC generated the highest total revenue among the
+-- above-average hospitals, with approximately $1.08M.
+
+-- The results highlight considerable variation in revenue
+-- performance across hospitals within the healthcare network.
+
+-- The presence of 15,219 above-average hospitals indicates that
+-- revenue performance is distributed across a large group of
+-- hospitals rather than being concentrated among only a few
+-- high-performing hospitals.
 
 
 --Find the highest and lowest billing amount for each hospital.
+select 
+	Hospital,
+	ROUND(MAX(Billing_Amount),2) as [Max Bill Amount],
+	ROUND(MIN(Billing_Amount),2) as [Min Bill Amount]
+from health_care_data
+group by Hospital;
 
+-- Insights:
+-------------
+-- Billing amounts varied across hospitals, indicating differences
+-- in the size and nature of individual patient bills.
+
+-- Each hospital recorded a different maximum and minimum billing
+-- amount, highlighting variation in billing patterns across the network.
+
+-- The presence of very high billing amounts may indicate hospitals
+-- handling high-value treatments or patients with more complex
+-- healthcare requirements.
+
+-- Negative minimum billing amounts may indicate refunds,
+-- billing reversals, or financial adjustments.
+
+-- Comparing maximum and minimum billing amounts helps identify
+-- unusual billing patterns and hospitals that may require
+-- further investigation.
 
 
 --5. Medical Condition & Financial Analysis 
 ----------------------------------------------
 
 --Find the total revenue by medical condition.
+select
+	Medical_Condition,
+	ROUND(SUM(Billing_Amount),2) as [Total Revenue]
+from health_care_data
+group by Medical_Condition
+order by [Total Revenue] desc;
+
+-- Insights:
+--------------
+-- This analysis identifies the total revenue by medical condition.
+
+-- Diabetes has the highest total revenue,
+-- with approximately $238.54M.
+
+-- Cancer has the lowest total revenue,
+-- with approximately $232.17M.
+
+-- The difference between the highest and lowest total revenue
+-- is approximately $6.37M, indicating that total revenue is
+-- relatively balanced across the medical conditions.
+
+
 --Find the average billing amount by medical condition.
+select
+	Medical_Condition,
+	ROUND(AVG(Billing_Amount),2) as [Average Billing Amount]
+from health_care_data
+group by Medical_Condition
+order by [Average Billing Amount] desc;
+
+-- Insights:
+--------------
+-- This analysis identifies the average billing amount by medical condition.
+
+-- Obesity has the highest average billing amount,
+-- with approximately $25,805.97.
+
+-- Cancer has the lowest average billing amount,
+-- with approximately $25,161.79.
+
+-- The difference between the highest and lowest average billing amounts
+-- is only $644.18, indicating that the average billing amount is
+-- relatively balanced across the medical conditions.
+
 --Find the top 5 medical conditions by revenue.
+select
+	TOP 5 Medical_Condition,
+	ROUND(SUM(Billing_Amount),2) as [Total Revenue]
+from health_care_data
+group by Medical_Condition
+order by [Total Revenue] desc;
+
+-- Insights:
+--------------
+-- This analysis identifies the top 5 medical conditions by total revenue.
+
+-- Diabetes generates the highest revenue among the top 5 medical conditions,
+-- with approximately $238.54M in total revenue.
+
+-- Asthma generates the lowest revenue among the top 5 medical conditions,
+-- with approximately $235.46M in total revenue.
+
+-- The revenue difference between the highest and lowest condition in the top 5
+-- is relatively small, indicating that revenue is fairly balanced among these conditions.
+
+
 --Find the medical condition with the highest average billing amount.
+select
+	TOP 1 Medical_Condition,
+	ROUND(AVG(Billing_Amount),2) as [Average Billing Amount]
+from health_care_data
+group by Medical_Condition
+order by [Average Billing Amount] desc;
+
+-- Insights:
+--------------
+-- This analysis identifies the medical condition with the highest average billing amount,
+-- which is Obesity with an average billing amount of $25,805.97.
+
+
+
 --Find the percentage contribution of each medical condition to total revenue.
+select
+	Medical_Condition,
+	ROUND(SUM(Billing_Amount),2) as [Total Revenue],
+	ROUND(SUM(Billing_Amount) * 100.0 / SUM(SUM(Billing_Amount)) over(),2) as [percentage contribution]
+from health_care_data
+group by Medical_Condition
+order by [Total Revenue] desc;
+
+-- Insights:
+--------------
+-- This analysis shows the percentage contribution of each medical condition
+-- to the total revenue of the healthcare network.
+
+-- Diabetes has the highest revenue contribution at 16.83%,
+-- while Cancer has the lowest contribution at 16.38%.
+
+-- The difference between the highest and lowest contribution is only
+-- 0.45 percentage points, indicating that revenue is relatively evenly
+-- distributed across the medical conditions.
+
+-- No single medical condition dominates the overall revenue contribution,
+-- as each condition contributes approximately 16%–17% of total revenue.
+
+-- Business Impact:
+-----------------------
+-- The relatively balanced revenue contribution suggests that the healthcare
+-- network is not heavily dependent on a single medical condition for its revenue.
+
+-- This can help management evaluate resource allocation and capacity planning
+-- across medical conditions while considering other factors such as patient
+-- volume, treatment requirements, and operational needs.
+
+
 --Compare medical conditions based on patient count, average billing, and total revenue.
+select 
+	Medical_Condition,
+	COUNT(*) as [Patient Count],
+	ROUND(AVG(Billing_Amount),2) as [Average Billing Amount],
+	ROUND(SUM(Billing_Amount),2) as [Total Revenue]
+from health_care_data
+group by Medical_Condition;
+
+-- Insights:
+--------------
+-- This analysis compares medical conditions based on patient count,
+-- average billing amount, and total revenue.
+
+-- Arthritis has the highest patient count with 9,308 patients,
+-- indicating the largest patient volume among the medical conditions.
+
+-- Obesity has the highest average billing amount at $25,805.97,
+-- indicating the highest average billing amount per patient.
+
+-- Diabetes generates the highest total revenue at approximately $238.54M,
+-- followed by Obesity at approximately $238.21M.
+
+-- Cancer has the lowest total revenue among the medical conditions,
+-- generating approximately $232.17M.
+
+-- Business Impact:
+------------------------
+-- This analysis can help the healthcare network understand patient volume,
+-- average billing, and revenue contribution across different medical conditions.
+
+-- These insights can support resource allocation, capacity planning,
+-- and prioritization of medical services based on patient demand and revenue contribution.
 
 
 --6. Advanced SQL Analysis 
 -----------------------------
 
 --Find the second-highest distinct billing amount.
+with ranked_bill_Amount as (
+		select 
+			DENSE_RANK() over(order by Billing_Amount desc) as [Billing Ranking],
+			Billing_Amount
+		from health_care_data
+) 
+select 
+	Distinct Billing_Amount
+from ranked_bill_Amount
+where [Billing Ranking] = 2;
+
+-- Insights:
+--------------
+-- This analysis identifies the SECOND-highest distinct billing amount in the healthcare network,
+-- which is 52,373.03.
+
+
 --Find the third-highest distinct billing amount.
+with ranked_bill_amount as (
+		select 
+			DENSE_RANK() over(order by Billing_Amount desc) as [Billing Ranking],
+			Billing_Amount
+		from health_care_data
+)
+select
+	ROUND(Billing_Amount, 2)
+from ranked_bill_amount
+where [Billing Ranking] = 3;
+
+-- Insights:
+--------------
+-- This analysis identifies the third-highest distinct billing amount in the healthcare network,
+-- which is 52,271.66.
+
+
 --Rank hospitals by total revenue using RANK() or DENSE_RANK().
+select 
+	Hospital,
+	SUM(Billing_Amount) as [Total Revenue],
+	RANK() over(order by SUM(Billing_Amount) desc) as [Hospital Ranking using Rank],
+	DENSE_RANK() over(order by SUM(Billing_Amount) desc) as [Hospital Ranking using Dense_Rank]
+from health_care_data
+group by Hospital;
+
+-- Insights:
+--------------
+-- This analysis ranks hospitals based on their total revenue using both RANK() and DENSE_RANK().
+-- It highlights the difference between RANK() and DENSE_RANK() when hospitals have equal revenue.
+-- RANK() assigns the same rank to tied hospitals and skips the subsequent rank, whereas DENSE_RANK() 
+-- assigns the same rank without skipping the next rank.
+
+
 --Find the top 3 hospitals within each admission type based on revenue.
+with CTEs as (
+	select
+		Admission_Type,
+		Hospital,
+		SUM(Billing_Amount) as [Total Revenue],
+		DENSE_RANK() over(partition by Admission_Type order by SUM(Billing_Amount) desc) as [Ranking]
+	from health_care_data
+	group by Admission_Type, Hospital
+)
+
+select 
+	Admission_Type,
+	Hospital,
+	[Total Revenue],
+	Ranking
+from CTEs 
+where [Ranking] in (1,2,3)
+
+-- Insights:
+--------------
+-- This analysis identifies the top 3 hospitals within each admission type based on total revenue.
+-- The results highlight the highest-revenue-performing hospitals across Urgent, Emergency, and Elective admissions.
+-- This analysis can help management identify lower-revenue hospitals and investigate the 
+-- practices of high-performing hospitals to identify opportunities for improvement.
+
+
 --Find patients whose billing amount is greater than the average billing amount of their medical condition.
+with PatientWithAvg as (
+	select
+		*,
+		AVG(Billing_Amount) over(partition by Medical_Condition) as [Average Billing Amount]
+	from health_care_data
+)
+select *
+from PatientWithAvg 
+where Billing_Amount > [Average Billing Amount];
+
+-- Insights:
+--------------
+-- This analysis identifies patients whose billing amount is higher than 
+-- the average billing amount for their respective medical condition.
+
+
 --Calculate a running total of revenue by date.
+with DailyRevenue as (
+    select
+        Date_of_Admission,
+        SUM(Billing_Amount) as [Daily Revenue]
+    from health_care_data
+    group by Date_of_Admission
+)
+select
+    Date_of_Admission,
+    [Daily Revenue],
+    SUM([Daily Revenue]) over (
+        order by Date_of_Admission
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ) as [Running Total Revenue]
+from DailyRevenue
+order by Date_of_Admission;
+
+-- Insights:
+--------------
+-- The healthcare network's cumulative revenue increased progressively throughout the analysis period, 
+-- reaching approximately $1.42 billion by the final admission date.
+
+
 --Calculate year-over-year revenue growth.
+with YearlyData as (
+	select
+		YEAR(Date_of_Admission) as [Year],
+		ROUND(SUM(Billing_Amount),2) as [Total Revenue]
+	from health_care_data
+	group by YEAR(Date_of_Admission)
+),
+YoY_Calculation as (
+	select 
+		[Year],
+		[Total Revenue],
+		ISNULL(
+			LAG([Total Revenue],1) over(order by [Year] asc), 
+				[Total Revenue]) as [Previous_Year_Revenue]
+	from YearlyData
+)
+select
+	[Year], 
+	[Total Revenue],
+	((([Total Revenue]
+	- 
+	 [Previous_Year_Revenue]) * 100.0)
+	/
+	[Previous_Year_Revenue]) as [YOY Revenue Growth %]
+from YoY_Calculation
+
+-- Insights:
+----------------
+-- This analysis shows the year-over-year revenue growth of the healthcare network.
+
+-- 2019 is the first year in the dataset, so YoY revenue growth cannot be
+-- calculated due to the absence of prior-year data.
+
+-- Revenue increased by 50.93% in 2020, representing the strongest
+-- year-over-year growth during the period.
+
+-- Revenue declined by 2.23% in 2021 compared with the previous year,
+-- indicating a moderate contraction after the strong growth in 2020.
+
+-- Revenue increased slightly by 0.33% in 2022, indicating a modest
+-- recovery after the decline in 2021.
+
+-- Revenue grew marginally by 0.32% in 2023, indicating relatively
+-- stable revenue performance compared with 2022.
+
+-- Revenue declined sharply by 65.31% in 2024, representing the largest
+-- year-over-year revenue decrease during the period.
+
+-- Conclusion:
+---------------
+-- 2020 recorded the strongest YoY revenue growth at 50.93%.
+
+-- 2024 recorded the largest YoY revenue decline at 65.31%.
+
+-- The sharp decline in 2024 warrants further investigation
+-- into admission volume, billing amounts, and data coverage
+-- to identify the underlying drivers.
+
+
 --Find the highest-revenue medical condition within each admission type.
+with CTEs as (
+	select 
+		Admission_Type,
+		Medical_Condition,
+		ROUND(SUM(Billing_Amount),2) as [Total Revenue],
+		DENSE_RANK() over(partition by Admission_Type order by SUM(Billing_Amount) desc) as [Ranking]
+	from health_care_data
+	group by Admission_Type, Medical_Condition
+)
+select 
+	Admission_Type,
+	Medical_Condition,
+	[Total Revenue],
+	Ranking
+from CTEs
+where [Ranking] = 1;
+
+-- Insights:
+-----------------
+-- This analysis identifies the highest-revenue medical condition within each admission type.
+
+-- In Elective admissions, Hypertension generates the highest revenue ($82.38M).
+-- In Emergency admissions, Obesity generates the highest revenue ($80.69M).
+-- In Urgent admissions, Diabetes generates the highest revenue ($82.20M).
+
+-- These findings indicate that different medical conditions are the major
+-- revenue contributors within different admission types, suggesting that
+-- revenue patterns vary across admission categories.
+
 --Use a CTE to identify hospitals contributing more than 5% of total revenue.
+With Hospital_revenue as (
+	select 
+		Hospital,
+		SUM(Billing_Amount) as [Total Revenue],
+		(SUM(Billing_Amount) * 100.0) / SUM(SUM(Billing_Amount)) over() as [Percentage Contribution]
+	from health_care_data
+	group by Hospital
+)
+select 
+	Hospital,
+	[Total Revenue],
+	[Percentage Contribution]
+from Hospital_revenue
+where [Percentage Contribution] > 5.0;
+
+-- Insights:
+-----------------
+-- This analysis identifies hospitals contributing more than 5% of the
+-- healthcare network's total revenue.
+
+-- The analysis shows that no individual hospital contributes more than
+-- 5% of total network revenue, indicating that revenue is not highly
+-- concentrated in a single hospital and is relatively diversified
+-- across the network.
+
 --Create a query combining patient count, average billing, total revenue, and revenue contribution % by hospital.
+select 
+	Hospital,
+	count(*) as [Patient Count],
+	ROUND(AVG(Billing_Amount),2) as [Average Billing Amount],
+	ROUND(SUM(Billing_Amount),2) as [Total Revenue],
+	(SUM(Billing_Amount) * 100.0) / SUM(SUM(Billing_Amount)) over() as [Percentage Contribution]
+from health_care_data
+group by Hospital
+
+-- Insights:
+-----------------
+-- The analysis compares patient volume, average billing amount, total revenue,
+-- and revenue contribution across hospitals within the healthcare network.
+
+-- Hospitals generating higher total revenue are primarily driven by higher patient
+-- volume rather than substantially higher average billing per patient, indicating
+-- that patient volume is a key driver of overall hospital revenue.
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- Project Conclusion:
+
+-- This analysis provides an overall view of patient demographics,
+-- admission patterns, hospital performance, medical conditions,
+-- and revenue trends across the healthcare network.
+
+-- The dataset contains 55,500 patient records, with a nearly balanced
+-- distribution across genders and admission types.
+
+-- Adults and Senior Citizens represent the largest patient groups,
+-- while patient volumes and revenue contributions are relatively
+-- evenly distributed across the major medical conditions.
+
+-- Hospital revenue is distributed across a large number of hospitals,
+-- with no individual hospital contributing more than 5% of total
+-- network revenue.
+
+-- The analysis also identified negative billing amounts, which may
+-- represent refunds, billing adjustments, or other financial
+-- corrections and warrant further investigation.
+
+-- Revenue increased strongly in 2020 by 50.93%, followed by relatively
+-- stable performance from 2021 to 2023. However, revenue declined
+-- sharply by 65.31% in 2024, making it an important area for further
+-- investigation into admission volume, billing patterns, and data coverage.
+
+-- Overall, the analysis demonstrates how SQL can be used to validate
+-- healthcare data, identify important patterns, compare performance,
+-- analyze revenue drivers, and generate actionable business insights.
