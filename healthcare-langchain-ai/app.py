@@ -1,10 +1,11 @@
-from dotenv import load_dotenv
+import os
+import streamlit as st
+import re
 
+from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 from database import execute_query
-
-import re
 
 
 # ============================================================
@@ -13,19 +14,27 @@ import re
 
 load_dotenv()
 
+api_key = os.getenv("GEMINI_API_KEY")
+
+if not api_key:
+    api_key = st.secrets["GEMINI_API_KEY"]
+
 
 # ============================================================
 # 2. HELPER — CONVERT GEMINI CONTENT TO PLAIN TEXT
 # ============================================================
 
 def extract_text(content):
+
     """
     Convert Gemini/LangChain response content into a plain string.
 
     Gemini may return:
+
         "some text"
 
     or:
+
         [{"type": "text", "text": "some text"}]
     """
 
@@ -59,6 +68,7 @@ def extract_text(content):
 # ============================================================
 
 def validate_sql_query(query):
+
     """
     Allow only read-only SQL queries.
     """
@@ -119,6 +129,7 @@ def validate_sql_query(query):
         upper_query.startswith("SELECT")
         or upper_query.startswith("WITH")
     ):
+
         raise PermissionError(
             "Only read-only SELECT queries are allowed."
         )
@@ -163,7 +174,8 @@ def validate_sql_query(query):
 # ============================================================
 
 llm = ChatGoogleGenerativeAI(
-    model="gemini-3.5-flash"
+    model="gemini-3.5-flash",
+    api_key=api_key
 )
 
 
@@ -172,6 +184,7 @@ llm = ChatGoogleGenerativeAI(
 # ============================================================
 
 SCHEMA = """
+
 Table: health_care_data
 
 Columns:
@@ -193,6 +206,7 @@ Medication            NVARCHAR
 Test_Results          NVARCHAR
 
 Total records: 55,500
+
 """
 
 
@@ -201,6 +215,7 @@ Total records: 55,500
 # ============================================================
 
 SQL_PROMPT = """
+
 You are a DuckDB SQL query generator for a healthcare
 analytics application.
 
@@ -216,6 +231,7 @@ RULES:
 1. Use only the table and columns provided above.
 
 2. The table name is:
+
    health_care_data
 
 3. Use Billing_Amount for billing/revenue calculations.
@@ -252,6 +268,7 @@ RULES:
 USER QUESTION:
 
 {question}
+
 """
 
 
@@ -260,6 +277,7 @@ USER QUESTION:
 # ============================================================
 
 ANSWER_PROMPT = """
+
 You are a Healthcare Data Analyst.
 
 The user asked:
@@ -306,6 +324,7 @@ Rules:
 
 10. Do not return JSON, Python lists, dictionaries,
     or structured content.
+
 """
 
 
@@ -319,67 +338,42 @@ def is_relevant_question(question):
 
         "patient",
         "patients",
-
         "billing",
         "bill",
-
         "hospital",
         "hospitals",
-
         "doctor",
         "doctors",
-
         "medical",
         "healthcare",
         "health",
-
         "condition",
-
         "admission",
         "admissions",
-
         "discharge",
-
         "insurance",
-
         "medication",
         "medicine",
-
         "age",
-
         "gender",
-
         "blood",
-
         "revenue",
-
         "record",
         "records",
-
         "data",
-
         "average",
-
         "total",
-
         "count",
-
         "highest",
         "lowest",
-
         "maximum",
         "minimum",
-
         "trend",
-
         "comparison",
         "compare",
-
         "percentage",
         "percent",
-
         "room",
-
         "test",
         "tests"
 
