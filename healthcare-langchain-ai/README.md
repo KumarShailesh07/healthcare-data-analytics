@@ -1,8 +1,14 @@
 # 🏥 Healthcare AI Analyst
 
-An AI-powered healthcare data analytics application that allows users to ask questions about healthcare data in **natural language** and receive business-friendly answers.
+An AI-powered healthcare data analytics application that allows users to ask questions about healthcare data in **natural language** and receive concise, business-friendly answers.
 
-The application converts natural-language questions into **DuckDB SQL queries using Gemini**, executes the queries securely against a healthcare dataset, and converts the results into concise analytical insights.
+The application converts natural-language questions into **DuckDB SQL using Google Gemini and LangChain**, securely executes the generated queries against a healthcare dataset, and converts the results into understandable analytical insights.
+
+## 🚀 Live Demo
+
+**[Healthcare AI Analyst — Streamlit](https://healthcare-data-analytics.streamlit.app/)**
+
+Users can open the application directly in their browser and ask analytical questions without installing Python, SQL Server, or any local dependencies.
 
 ---
 
@@ -18,7 +24,7 @@ This project provides a natural-language interface where users can ask questions
 
 > "What is the total billing amount?"
 
-The application then:
+The application then follows this workflow:
 
 ```text
 User Question
@@ -75,18 +81,18 @@ FROM health_care_data;
 
 ---
 
-### 🔐 Read-Only SQL Security
+### 🔐 Read-Only SQL Validation
 
 The application validates generated SQL before execution.
 
-Allowed:
+Allowed query types:
 
-```sql
+```text
 SELECT
 WITH
 ```
 
-Blocked operations include:
+Common destructive operations blocked include:
 
 ```text
 INSERT
@@ -108,7 +114,7 @@ CALL
 
 Multiple SQL statements are also rejected.
 
-This ensures that the AI-generated query cannot intentionally modify or destroy the underlying data.
+This prevents the application from executing common destructive SQL operations against the underlying dataset.
 
 ---
 
@@ -116,7 +122,7 @@ This ensures that the AI-generated query cannot intentionally modify or destroy 
 
 The application checks whether a question is related to the healthcare dataset before sending it through the SQL-generation workflow.
 
-For example:
+Example:
 
 ```text
 Average billing       → Relevant
@@ -128,7 +134,7 @@ Cricket               → Not relevant
 Joke                  → Not relevant
 ```
 
-This helps prevent unnecessary AI/database calls.
+This helps reduce unnecessary AI and database calls.
 
 ---
 
@@ -139,7 +145,6 @@ The application does not simply return raw database results.
 For example:
 
 ```text
-Average billing:
 25539.316097199422
 ```
 
@@ -220,7 +225,7 @@ The application determines whether the question is related to the healthcare dat
 
 ### 3. SQL Generation
 
-Gemini generates DuckDB-compatible SQL based on the database schema.
+Gemini generates DuckDB-compatible SQL based on the available database schema.
 
 ### 4. SQL Validation
 
@@ -233,7 +238,7 @@ The generated SQL is checked for:
 
 ### 5. Query Execution
 
-The validated query is executed against the DuckDB database.
+The validated query is executed against DuckDB.
 
 ### 6. Result Processing
 
@@ -249,7 +254,7 @@ Gemini converts the database result into a concise, understandable answer.
 
 ```text
                     ┌──────────────────────┐
-                    │       User           │
+                    │        User          │
                     │ Natural Language     │
                     │      Question        │
                     └──────────┬───────────┘
@@ -266,8 +271,8 @@ Gemini converts the database result into a concise, understandable answer.
                                │
                                ▼
                     ┌──────────────────────┐
-                    │ Gemini + LangChain    │
-                    │    SQL Generation     │
+                    │   Gemini + LangChain │
+                    │    SQL Generation    │
                     └──────────┬───────────┘
                                │
                                ▼
@@ -295,7 +300,7 @@ Gemini converts the database result into a concise, understandable answer.
                                │
                                ▼
                     ┌──────────────────────┐
-                    │       User           │
+                    │        User          │
                     │ Business-Friendly    │
                     │       Answer         │
                     └──────────────────────┘
@@ -309,12 +314,7 @@ Gemini converts the database result into a concise, understandable answer.
 
 * Python
 
-### Data Analytics
-
-* Pandas
-* NumPy
-
-### Database
+### Database & Data
 
 * DuckDB
 * CSV
@@ -335,7 +335,7 @@ Gemini converts the database result into a concise, understandable answer.
 
 ### Testing
 
-* Python-based unit/integration tests
+* Python-based unit and integration tests
 
 ---
 
@@ -410,9 +410,9 @@ Responsible for the user interface:
 
 ---
 
-## 🔒 Environment Variables
+## 🔑 Environment Variables
 
-The Gemini API key is stored using an environment variable.
+The Gemini API key is stored outside the source code using an environment variable.
 
 Create a `.env` file inside:
 
@@ -429,6 +429,8 @@ GEMINI_API_KEY=your_api_key_here
 The `.env` file is intentionally excluded from Git using `.gitignore`.
 
 **Never commit API keys or other credentials to GitHub.**
+
+For Streamlit Community Cloud, the API key is configured through the application's deployment secrets.
 
 ---
 
@@ -611,13 +613,13 @@ Security controls include:
 * Destructive SQL keyword blocking
 * Database errors handled safely
 
-The AI-generated SQL is **validated before execution**.
+AI-generated SQL is **validated before execution**.
 
 ---
 
 ## 🚀 Deployment
 
-The application is designed to be deployed using **Streamlit Community Cloud**.
+The application is deployed using **Streamlit Community Cloud**.
 
 Deployment requires:
 
@@ -626,7 +628,11 @@ Deployment requires:
 3. Python dependencies
 4. Gemini API key configured as a deployment secret
 
-The Gemini API key should **not** be committed to GitHub.
+The Gemini API key should **never be committed to GitHub**.
+
+### Live Application
+
+**[Open Healthcare AI Analyst](https://healthcare-data-analytics.streamlit.app/)**
 
 ---
 
@@ -691,7 +697,7 @@ Key concepts explored include:
 
 B.Tech CSE — Artificial Intelligence & Machine Learning
 
-Aspiring Data Analyst | Python | SQL | Power BI | Advanced Excel | Generative AI
+**Aspiring Data Analyst | Python | SQL | Power BI | Advanced Excel | Generative AI**
 
 ---
 
