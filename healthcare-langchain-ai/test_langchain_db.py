@@ -1,10 +1,23 @@
-from database import engine
-from langchain_community.utilities import SQLDatabase
+from database import conn
 
-db = SQLDatabase(engine)
 
-print("Tables:")
-print(db.get_usable_table_names())
+print("Testing DuckDB connection...")
 
-print("\nDatabase Schema:")
-print(db.get_table_info())
+result = conn.execute(
+    "SELECT COUNT(*) FROM health_care_data"
+).fetchone()
+
+print("Total records:", result[0])
+
+print("\nTesting sample query...")
+
+result = conn.execute(
+    """
+    SELECT AVG(Billing_Amount)
+    FROM health_care_data
+    """
+).fetchone()
+
+print("Average billing:", result[0])
+
+print("\nDatabase test successful!")

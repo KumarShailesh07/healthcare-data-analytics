@@ -12,7 +12,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 print("3. LangChain Gemini imported")
 
 llm = ChatGoogleGenerativeAI(
-    model="gemini-3.8-flash",
+    model="gemini-3.5-flash",
     temperature=0
 )
 

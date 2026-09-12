@@ -1,32 +1,23 @@
-import os
+from app import generate_sql, execute_sql
 
-from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_community.utilities import SQLDatabase
-from langchain_community.agent_toolkits import create_sql_agent
-
-from database import engine
-
-load_dotenv()
-
-llm = ChatGoogleGenerativeAI(
-    model="gemini-3.5-flash"
-)
-
-db = SQLDatabase(engine)
-
-agent = create_sql_agent(
-    llm=llm,
-    db=db,
-    agent_type="tool-calling",
-    verbose=True
-)
 
 question = "What is the total billing amount?"
 
-response = agent.invoke({
-    "input": question
-})
+print("Question:")
+print(question)
 
-print("\nFinal Answer:")
-print(response["output"])
+print("\nGenerating SQL...")
+
+sql = generate_sql(question)
+
+print("Generated SQL:")
+print(sql)
+
+print("\nExecuting SQL...")
+
+result = execute_sql(sql)
+
+print("Database Result:")
+print(result)
+
+print("\nGemini + SQL + DuckDB test successful!")
